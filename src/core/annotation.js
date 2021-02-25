@@ -122,6 +122,8 @@ class AnnotationFactory {
             return new ButtonWidgetAnnotation(parameters);
           case "Ch":
             return new ChoiceWidgetAnnotation(parameters);
+          case "Sig":
+            return new SignatureAnnotation(parameters);
         }
         warn(
           'Unimplemented widget field type "' +
@@ -1034,15 +1036,6 @@ class WidgetAnnotation extends Annotation {
 
     data.readOnly = this.hasFieldFlag(AnnotationFieldFlag.READONLY);
     data.hidden = this._hasFlag(data.annotationFlags, AnnotationFlag.HIDDEN);
-
-    // Hide signatures because we cannot validate them, and unset the fieldValue
-    // since it's (most likely) a `Dict` which is non-serializable and will thus
-    // cause errors when sending annotations to the main-thread (issue 10347).
-    if (data.fieldType === "Sig") {
-      data.fieldValue = null;
-      this.setFlags(AnnotationFlag.HIDDEN);
-      data.hidden = true;
-    }
   }
 
   /**
@@ -2286,6 +2279,17 @@ class CircleAnnotation extends MarkupAnnotation {
     super(parameters);
 
     this.data.annotationType = AnnotationType.CIRCLE;
+  }
+}
+
+class SignatureAnnotation extends SquareAnnotation {
+  constructor(parameters) {
+    super(parameters);
+
+    this.data.title = "";
+    this.data.contents = "";
+    this.data.fieldValue = null;
+    this.data.hidden = true;
   }
 }
 
