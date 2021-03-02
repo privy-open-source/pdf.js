@@ -1363,7 +1363,7 @@ gulp.task("types", function (done) {
     "forceConsistentCasingInFileNames",
     "emitDeclarationOnly",
   ].join(" --");
-  exec(`"node_modules/.bin/tsc" --${args} src/pdf.js`, done);
+  exec(`"node_modules/.bin/tsc" --${args} src/pdf.js web/pdf_viewer.js`, done);
 });
 
 function buildLib(defines, dir) {
