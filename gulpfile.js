@@ -1216,8 +1216,11 @@ gulp.task('dist-pre',
   var DIST_HOMEPAGE = 'http://mozilla.github.io/pdf.js/';
   var DIST_BUGS_URL = 'https://github.com/mozilla/pdf.js/issues';
   var DIST_LICENSE = 'Apache-2.0';
+
+  var NPM_NAME = '@privyid/pdfjs-dist';
+
   var npmManifest = {
-    name: DIST_NAME,
+    name: NPM_NAME,
     version: VERSION,
     main: 'build/pdf.js',
     description: DIST_DESCRIPTION,

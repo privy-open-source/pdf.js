@@ -83,6 +83,8 @@ class AnnotationFactory {
             return new ButtonWidgetAnnotation(parameters);
           case 'Ch':
             return new ChoiceWidgetAnnotation(parameters);
+          case 'Sig':
+            return new SignatureAnnotation(parameters);
         }
         warn('Unimplemented widget field type "' + fieldType + '", ' +
              'falling back to base field type.');
@@ -612,11 +614,7 @@ class WidgetAnnotation extends Annotation {
     }
 
     data.readOnly = this.hasFieldFlag(AnnotationFieldFlag.READONLY);
-
-    // Hide signatures because we cannot validate them.
-    if (data.fieldType === 'Sig') {
-      this.setFlags(AnnotationFlag.HIDDEN);
-    }
+    data.hidden = this._hasFlag(data.annotationFlags, AnnotationFlag.HIDDEN);
   }
 
   /**
@@ -980,6 +978,17 @@ class CircleAnnotation extends Annotation {
 
     this.data.annotationType = AnnotationType.CIRCLE;
     this._preparePopup(parameters.dict);
+  }
+}
+
+class SignatureAnnotation extends SquareAnnotation {
+  constructor(parameters) {
+    super(parameters);
+
+    this.data.title = '';
+    this.data.contents = '';
+    this.data.fieldValue = null;
+    this.data.hidden = true;
   }
 }
 
